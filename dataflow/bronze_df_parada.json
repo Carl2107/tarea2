@@ -63,6 +63,12 @@
 				},
 				{
 					"name": "union3"
+				},
+				{
+					"name": "derivedColumn1"
+				},
+				{
+					"name": "select4"
 				}
 			],
 			"scriptLines": [
@@ -157,9 +163,25 @@
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true) ~> select3",
-				"select1, sql union(byName: true)~> union1",
+				"select4, sql union(byName: true)~> union1",
 				"union1, select2 union(byName: true)~> union2",
 				"union2, select3 union(byName: true)~> union3",
+				"select1 derive(AnioFuente = toString(year(currentDate())),",
+				"          CodigoPublicado = ParadaHistoricaId) ~> derivedColumn1",
+				"derivedColumn1 select(mapColumn(",
+				"          ParadaHistoricaId,",
+				"          NombreParada,",
+				"          Zona,",
+				"          Latitud,",
+				"          Longitud,",
+				"          VigenciaDesde,",
+				"          VigenciaHasta,",
+				"          Estado,",
+				"          AnioFuente,",
+				"          CodigoPublicado",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> select4",
 				"union3 sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     input(",
